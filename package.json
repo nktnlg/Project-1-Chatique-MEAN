@@ -1,0 +1,33 @@
+{
+  "name": "chat",
+  "version": "1.0.0",
+  "description": "chat",
+  "main": "index.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.3",
+    "mongo": "^0.1.0",
+    "mongodb": "^4.4.1",
+    "mongoose": "^6.2.7",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.4",
+    "passport": "^0.5.2",
+    "passport-jwt": "^4.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^7.1.0",
+    "nodemon": "^2.0.15"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "s-start": "nodemon index",
+    "c-install": "npm install --prefix client",
+    "c-start": "npm run start --prefix client",
+    "dev": "concurrently \"npm run s-start\" \"npm run c-start\""
+  },
+  "author": "nktnlg",
+  "license": "ISC"
+}

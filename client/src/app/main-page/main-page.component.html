@@ -1,0 +1,12 @@
+<button class="btn btn-block" routerLink="/chat">CREATE NEW CHAT</button>
+<hr>
+<p>Existing chats:</p>
+<ul class="list-group" *ngFor="let chat of chats">
+  <li class="list-group-item" routerLink="/chat">
+    {{chat.lastMsg}}
+    <span class="badge">{{chat.unreadMsg}}</span>
+  </li>
+</ul>
+
+<button class="btn btn-block" routerLink="/profile">PROFILE</button>
+<button class="btn btn-block" routerLink="/">EXIT</button>

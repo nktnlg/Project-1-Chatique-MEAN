@@ -1,17 +1,79 @@
-<div class="form-group has-success has-feedback">
-  <label class="control-label" for="username">Username</label>
-  <input type="text" class="form-control" id="username" aria-describedby="usernameStatus">
-</div>
-<div class="form-group has-warning has-feedback">
-  <label class="control-label" for="password">Password</label>
-  <input type="password" class="form-control" id="password" aria-describedby="passwordStatus">
-  <span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
-  <span id="passwordStatus" class="help-block">Weak password</span>
-</div>
-<div class="form-group has-error has-feedback">
-  <label class="control-label" for="phone">Admission secret code</label>
-  <input type="tel" class="form-control" id="phone" aria-describedby="phoneStatus">
-  <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-  <span id="phoneStatus" class="help-block">Registration only allowed upon confirming the secret code</span>
-</div>
-<button class="btn btn-block">DONE</button>
+<form
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+>
+
+  <div
+    class="form-group has-feedback"
+    [ngClass]="form.get('username').untouched ? ''
+    : (form.get('username').invalid) ? 'has-error'
+    : userExists? 'has-error' : 'has-success'"
+  >
+    <label
+      for="username"
+      class="control-label"
+    >Username</label>
+    <input
+      id="username"
+      formControlName="username"
+      class="form-control"
+      type="text"
+    >
+
+    <span *ngIf="form.get('username').invalid && form.get('username').touched" class="glyphicon glyphicon-warning-sign form-control-feedback" ></span>
+
+    <span *ngIf="form.get('username').invalid && form.get('username').touched && !form.get('username').hasError('required')" class="help-block">3 char min.</span>
+    <span *ngIf="form.get('username').hasError('required') && form.get('username').touched" class="help-block">Cannot be empty</span>
+    <span *ngIf="userExists" class="help-block">Name already in use</span>
+  </div>
+
+  <div
+    class="form-group has-feedback"
+    [ngClass]="form.get('password').untouched ? ''
+    : (form.get('password').invalid) ? 'has-error' : 'has-success'"
+  >
+    <label
+      for="password"
+      class="control-label"
+    >Password</label>
+    <input
+      id="password"
+      formControlName="password"
+      type="password"
+      class="form-control"
+    >
+
+    <span *ngIf="form.get('password').invalid && form.get('password').touched" class="glyphicon glyphicon-warning-sign form-control-feedback" ></span>
+    <span *ngIf="form.get('password').invalid && form.get('password').touched && !form.get('password').hasError('required')" class="help-block">6 char min.</span>
+    <span *ngIf="form.get('password').hasError('required') && form.get('password').touched" class="help-block">Cannot be empty</span>
+  </div>
+
+  <div
+    class="form-group has-feedback"
+  [ngClass]="{'has-error': (form.get('admissionCode').invalid && form.get('admissionCode').touched) || wrongAdmissionCode}"
+  >
+    <label
+      class="control-label"
+      for="admissionCode"
+    >Admission secret code</label>
+    <input
+      formControlName="admissionCode"
+      id="admissionCode"
+      class="form-control"
+      type="password"
+    >
+    <span *ngIf="form.get('admissionCode').invalid && form.get('admissionCode').touched" class="glyphicon glyphicon-remove form-control-feedback"></span>
+    <span class="help-block">Registration only allowed upon confirming the secret code</span>
+    <span class="help-block" *ngIf="wrongAdmissionCode">Wrong admission code</span>
+  </div>
+
+  <button
+    [disabled]="form.invalid || form.disabled"
+    class="btn btn-block"
+    type="submit">DONE</button>
+
+</form>
+
+
+
+

@@ -7,6 +7,14 @@ module.exports.getById = async function(req, res) {
         res.status(200).json(user)
     } catch(e) { errHandle(res, e) }
 }
+module.exports.getAll = async function(req, res) {
+    try {
+        const users = await User.find()
+        res.status(200).json(users)
+    } catch(e) { errHandle(res, e) }
+}
+
+
 module.exports.patch = async function(req, res) {
     const updated = {
         username: req.body.username
@@ -23,4 +31,22 @@ module.exports.patch = async function(req, res) {
         )
         res.status(200).json(user)
     } catch(e) { errHandle(res, e) }
+}
+
+
+module.exports.delete = async function (req, res) {
+    const candidate = await User.findOne({_id: req.params.id})
+    if (candidate) {
+        try {
+            await User.deleteOne({_id: req.params.id})
+                .then(res.status(200).json({message: 'user deleted'}))
+        } catch (e) {
+            errHandle(res, e)
+        }
+    } else {
+        res.status(409).json({
+            message: 'User doesnt exist'
+        })
+    }
+
 }

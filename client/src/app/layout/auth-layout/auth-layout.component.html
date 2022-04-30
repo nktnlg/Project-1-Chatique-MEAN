@@ -3,3 +3,6 @@
 <button class="btn btn-block" routerLink="registration">REGISTER</button>
 <hr>
 <router-outlet></router-outlet>
+<div *ngIf="registered" style="color: darkgreen">You have successfully registered! You can login now</div>
+<div *ngIf="accessDenied">You can't access this page, please login first</div>
+<div *ngIf="sessionExpired">Session expired, please login again</div>

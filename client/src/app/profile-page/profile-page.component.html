@@ -1,5 +1,111 @@
 <hr>
 <p>Profile settings</p>
-<div>USERNAME: SomeName <button class="btn">CHANGE</button></div>
+<div>
+  USERNAME: <b>{{name}}</b>
+  <button class="btn" (click)="changeForm = !changeForm">CHANGE</button>
+</div>
+<br>
+
+<form
+  *ngIf="changeForm"
+  [formGroup]="form"
+  (ngSubmit)="changeName()"
+>
+  <div
+    class="form-group has-feedback"
+    [ngClass]="form.get('username').untouched ? ''
+    : (form.get('username').invalid) ? 'has-error'
+    : userExists? 'has-error' : 'has-success'"
+  >
+    <label
+      for="username"
+      class="control-label"
+    > Please enter new username</label>
+    <input
+      id="username"
+      type="text"
+      class="form-control"
+      formControlName="username"
+    >
+    <span *ngIf="form.get('username').invalid && form.get('username').touched"
+          class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
+
+    <span
+      *ngIf="form.get('username').invalid && form.get('username').touched && !form.get('username').hasError('required')"
+      class="help-block">3 char min.</span>
+    <span *ngIf="form.get('username').hasError('required') && form.get('username').touched" class="help-block">Cannot be empty</span>
+    <span *ngIf="userExists" class="help-block">Cannot change to a name that is already in use</span>
+  </div>
+
+  <div
+    class="form-group has-feedback"
+    [ngClass]="form.get('password').untouched ? ''
+    : (form.get('password').invalid) ? 'has-error'
+    : wrongPassword? 'has-error' : 'has-success'"
+  >
+
+
+    <label
+      class="control-label" for="password"
+    > Please confirm password</label>
+    <input
+      id="password"
+      type="password"
+      class="form-control"
+      formControlName="password"
+    >
+    <span *ngIf="form.get('password').invalid && form.get('password').touched"
+          class="glyphicon glyphicon-remove form-control-feedback"></span>
+    <span
+      *ngIf="form.get('password').invalid && form.get('password').touched && !form.get('password').hasError('required')"
+      class="help-block">6 char min.</span>
+    <span *ngIf="form.get('password').hasError('required') && form.get('password').touched" class="help-block">Cannot be empty</span>
+    <span class="help-block" *ngIf="wrongPassword" style="color: darkred">You have entered wrong password, please try again</span>
+  </div>
+  <br>
+  <button class="btn btn-block" type="submit">SUBMIT</button>
+  <hr>
+
+</form>
+
+
+<button class="btn btn-block" (click)="deleteForm = !deleteForm">DELETE USER</button>
+
+<form
+  *ngIf="deleteForm"
+  [formGroup]="form2"
+  (ngSubmit)="delete()"
+>
+  <div
+    class="form-group has-feedback"
+    [ngClass]="form2.get('passwordDel').untouched ? ''
+    : (form2.get('passwordDel').invalid) ? 'has-error'
+    : wrongPasswordDel? 'has-error' : 'has-success'"
+  >
+    <label
+      class="control-label" for="passwordDel"
+    > Please confirm password</label>
+    <input
+      id="passwordDel"
+      type="password"
+      class="form-control"
+      formControlName="passwordDel"
+    >
+
+    <span *ngIf="form2.get('passwordDel').invalid && form2.get('passwordDel').touched"
+          class="glyphicon glyphicon-remove form-control-feedback"></span>
+    <span
+      *ngIf="form2.get('passwordDel').invalid && form2.get('passwordDel').touched && !form2.get('passwordDel').hasError('required')"
+      class="help-block">6 char min.</span>
+    <span *ngIf="form2.get('passwordDel').hasError('required') && form2.get('passwordDel').touched" class="help-block">Cannot be empty</span>
+    <span class="help-block" *ngIf="wrongPasswordDel" style="color: darkred">You have entered wrong password, please try again</span>
+  </div>
+
+  <br>
+  <button class="btn btn-block" type="submit">DELETE</button>
+  <hr>
+
+</form>
+
 <hr>
 <button class="btn btn-block" routerLink="/main">BACK</button>

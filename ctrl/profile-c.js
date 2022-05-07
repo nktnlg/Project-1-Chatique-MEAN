@@ -22,20 +22,33 @@ module.exports.patch = async function(req, res) {
     if (req.file) {
         updated.avatarSrc = req.file.path
     }
+    const candidate = await User.findOne({username: req.body.username})
+    if (candidate) {
+        //user exists, must return error
+        res.status(409).json({
+            message: 'User with this name already exists',
+            userExists: true
+        })
+    } else {
+        try {
+            const user = await User.findOneAndUpdate(
+                {_id: req.params.id},
+                {$set: updated},
+                {new: true}
+            )
+            res.status(200).json(user)
+        } catch(e) { errHandle(res, e) }
+    }
 
-    try {
-        const user = await User.findOneAndUpdate(
-            {_id: req.params.id},
-            {$set: updated},
-            {new: true}
-        )
-        res.status(200).json(user)
-    } catch(e) { errHandle(res, e) }
+
+
+
 }
 
 
 module.exports.delete = async function (req, res) {
-    const candidate = await User.findOne({_id: req.params.id})
+    const candidate = await User.findOne({_id: req.params.id}).catch((error)=>{console.error(error)})
+    console.log(`api delete, id is ${candidate}`)
     if (candidate) {
         try {
             await User.deleteOne({_id: req.params.id})

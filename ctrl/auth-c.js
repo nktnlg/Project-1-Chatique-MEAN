@@ -72,3 +72,30 @@ module.exports.register = async function (req, res) {
         })
     }
 }
+
+module.exports.passCheck = async function (req, res) {
+    // в req.body нужны свойства username и password (интерфейс User)
+    const candidate = await User.findOne({username: req.body.username})
+
+    if (candidate) {
+        //check password, user exists
+        const passwordCheck = bcrypt.compareSync(req.body.password, candidate.password)
+
+        if (passwordCheck) {
+            //pass OK
+            res.status(200).json({allow: true})
+        }
+        else {
+            //DENIED
+            res.status(200).json({allow: false})
+        }
+    }
+
+    else {
+        //no such user, error
+        res.status(404).json({
+            message: `passCheck User not found`
+        })
+    }
+
+}

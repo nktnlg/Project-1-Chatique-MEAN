@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthService} from "../shared/services/auth.service";
+import {ChatService} from "../shared/services/chat.service";
 
 @Component({
   selector: 'app-main-page',
@@ -13,9 +15,14 @@ export class MainPageComponent implements OnInit {
     {lastMsg: 'some other words..', unreadMsg: 5}
     ]
 
-  constructor() { }
+  constructor(
+    private chat: ChatService,
+    private auth: AuthService) { }
 
   ngOnInit(): void {
+  }
+  logout(){
+    this.auth.logout()
   }
 
 }

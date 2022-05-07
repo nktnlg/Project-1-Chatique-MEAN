@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {TokenService} from "../../shared/services/token.service";
+import {Observable, Subscription} from "rxjs";
 
 @Component({
   selector: 'app-logged-layout',
@@ -8,9 +10,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoggedLayoutComponent implements OnInit {
 
-  constructor() { }
+  name = ''
 
-  ngOnInit(): void {
+  constructor( private tokenService: TokenService
+  ) {
   }
+
+  ngOnInit(): void{
+    this.name = this.tokenService.tokenUsername()
+  }
+
+  reset(){
+    this.name = this.tokenService.tokenUsername()
+  }
+
 
 }

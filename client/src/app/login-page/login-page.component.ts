@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../shared/services/auth.service";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {Subscription} from "rxjs";
+import {TokenService} from "../shared/services/token.service";
 
 @Component({
   selector: 'app-login-page',
@@ -56,6 +57,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       }
     )
   }
+
+
 
 //end
 }

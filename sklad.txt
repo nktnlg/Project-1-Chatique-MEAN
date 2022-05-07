@@ -1,0 +1,6 @@
+<p> Please confirm password</p>
+  <input
+    type="text"
+    class="form-control"
+    formControlName="password"
+  >

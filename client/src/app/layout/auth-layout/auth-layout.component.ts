@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
+import {AuthService} from "../../shared/services/auth.service";
 
 @Component({
   selector: 'app-auth-layout',
@@ -12,10 +13,18 @@ export class AuthLayoutComponent implements OnInit {
   accessDenied = false
   sessionExpired = false
 
-  constructor(private route: ActivatedRoute) {
+  constructor(
+    private auth: AuthService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
   }
 
   ngOnInit(): void {
+
+/*    if (this.auth.isAuthenticated()){
+      this.router.navigate(['/main'])
+    }*/
 
     this.route.queryParams.subscribe((params: Params) => {
       if (params['registered']) {

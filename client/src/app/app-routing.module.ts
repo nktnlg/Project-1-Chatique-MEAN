@@ -7,13 +7,14 @@ import {LoggedLayoutComponent} from "./layout/logged-layout/logged-layout.compon
 import {MainPageComponent} from "./main-page/main-page.component";
 import {ProfilePageComponent} from "./profile-page/profile-page.component";
 import {ChatPageComponent} from "./chat-page/chat-page.component";
+import {AuthGuard} from "./shared/classes/auth.guard";
 
 const routes: Routes = [
   {path: '', component: AuthLayoutComponent, children: [
       {path: 'login', component:LoginPageComponent},
       {path: 'registration', component:RegPageComponent},
     ]},
-  {path: '', component: LoggedLayoutComponent, children: [
+  {path: '', component: LoggedLayoutComponent, canActivate: [AuthGuard], children: [
       {path: 'main', component:MainPageComponent},
       {path: 'profile', component:ProfilePageComponent},
       {path: 'chat', component:ChatPageComponent}

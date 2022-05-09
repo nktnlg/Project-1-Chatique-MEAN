@@ -16,7 +16,11 @@ const chatSchema = new Schema({
     },
     lastMessage: {
         type: String,
-        required: false
+        required: true
+    },
+    messageCount: {
+        type: Number,
+        default: 1
     }
 
 })

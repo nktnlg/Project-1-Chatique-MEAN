@@ -23,7 +23,8 @@ module.exports.new = async function (req, res) {
     try {
         const chat = await new Chat({
             title: req.body.title,
-            user: req.user.id
+            user: req.user.id,
+            lastMessage: req.body.message
         }).save()
         res.status(201).json(chat)
     } catch (e) {

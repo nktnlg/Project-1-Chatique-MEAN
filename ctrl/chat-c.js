@@ -20,11 +20,12 @@ module.exports.getById = async function (req, res) {
 }
 
 module.exports.new = async function (req, res) {
+    //body shall have: title, message
     try {
         const chat = await new Chat({
             title: req.body.title,
             user: req.user.id,
-            lastMessage: req.body.message
+            lastMessage: req.body.lastMessage
         }).save()
         res.status(201).json(chat)
     } catch (e) {

@@ -5,9 +5,9 @@ export interface User {
 }
 export interface Chat {
   title: string,
-  user: User,
+  user?: User,
   date?: Date,
   lastMessage?: string,
   _id?: string,
-  messageCount: number
+  messageCount?: number
 }

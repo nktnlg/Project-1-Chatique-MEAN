@@ -12,4 +12,8 @@ export class ChatService {
     return this.http.get<Chat[]>('/api/chat')
   }
 
+  create(chat: Chat): Observable<Chat>{
+    return this.http.post<Chat>('/api/chat/', chat)
+  }
+
 }

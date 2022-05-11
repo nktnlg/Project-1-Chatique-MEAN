@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService} from "../shared/services/auth.service";
 import {ChatService} from "../shared/services/chat.service";
-import {Observable} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {Chat} from "../shared/interface";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 
@@ -11,10 +11,11 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
   styles: [
   ]
 })
-export class MainPageComponent implements OnInit {
+export class MainPageComponent implements OnInit, OnDestroy {
 
   chats$: Observable<Chat[]>
   form: FormGroup
+  aSub: Subscription
 
   constructor(
     private chat: ChatService,
@@ -29,9 +30,32 @@ export class MainPageComponent implements OnInit {
     })
   }
 
+  ngOnDestroy(): void {
+    if (this.aSub) {
+      this.aSub.unsubscribe()
+    }
+  }
+
   logout(){
     this.auth.logout()
   }
 
-  createChat(){}
+  createChat(){
+    this.form.disable()
+    const chat: Chat = {
+      title: this.form.value.title,
+      lastMessage: this.form.value.message
+    }
+    this.aSub = this.chat.create(chat).subscribe(
+      () =>{
+        this.form.reset()
+        this.form.enable()
+        this.chats$ = this.chat.fetch()
+      },
+      error => {
+        this.form.enable()
+        console.log(error)
+      }
+    )
+  }
 }

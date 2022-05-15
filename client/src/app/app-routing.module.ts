@@ -17,7 +17,7 @@ const routes: Routes = [
   {path: '', component: LoggedLayoutComponent, canActivate: [AuthGuard], children: [
       {path: 'main', component:MainPageComponent},
       {path: 'profile', component:ProfilePageComponent},
-      {path: 'chat', component:ChatPageComponent}
+      {path: 'chat/:id', component:ChatPageComponent}
     ]}
   ]
 @NgModule({

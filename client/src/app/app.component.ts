@@ -14,7 +14,7 @@ export class AppComponent implements OnInit{
     const tokenCandidate = localStorage.getItem('auth-token')
     if (tokenCandidate !== null) {
       this.auth.setToken(tokenCandidate)
-      console.log(`app.component.ts ngOnInit isAuth ${this.auth.isAuthenticated()}`)
+     // console.log(`app.component.ts ngOnInit isAuth ${this.auth.isAuthenticated()}`)
     }
   }
 }

@@ -12,7 +12,7 @@ module.exports.getAll = async function (req, res) {
 
 module.exports.getById = async function (req, res) {
     try {
-        const chat = await Chat.find({_id: req.params.id})
+        const chat = await Chat.findById(req.params.id)
         res.status(200).json(chat)
     } catch (e) {
         errHandle(res, e)
@@ -20,10 +20,12 @@ module.exports.getById = async function (req, res) {
 }
 
 module.exports.new = async function (req, res) {
+    //body shall have: title, message
     try {
         const chat = await new Chat({
             title: req.body.title,
-            user: req.user.id
+            user: req.user.id,
+            lastMessage: req.body.lastMessage
         }).save()
         res.status(201).json(chat)
     } catch (e) {
@@ -45,7 +47,8 @@ module.exports.patch = async function (req, res) {
 }
 
 module.exports.delete = async function (req, res) {
-    const candidate = await Chat.findOne({_id: req.params.id})
+    // req need chat id
+    const candidate = await Chat.findOne({_id: req.params.id}).catch((error)=>{console.error(error)})
     if (candidate) {
         try {
             await Chat.deleteOne({_id: req.params.id})

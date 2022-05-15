@@ -1,8 +1,8 @@
-<button class="btn btn-block" routerLink="/chat">CREATE NEW CHAT</button>
+<button class="btn btn-block" data-toggle="modal" data-target="#newChatModal" (click)="newChatDone=false">CREATE NEW CHAT</button>
 <hr>
 <p>Existing chats:</p>
 <div class="list-group" *ngIf="chats$ | async as chats">
-  <div class="list-group-item" routerLink="/chat" *ngFor="let chat of chats">
+  <div class="list-group-item" *ngFor="let chat of chats" [routerLink]="['/chat', chat._id]">
     <b>{{chat.title}}:</b>  {{chat.lastMessage}} <span class="badge">{{chat.messageCount}}</span>
   </div>
 </div>
@@ -10,35 +10,55 @@
 <button class="btn btn-block" routerLink="/profile">PROFILE</button>
 <button class="btn btn-block" (click)="logout()">EXIT</button>
 
-<div #modal>
-  <hr>
-  <form
-    [formGroup]="form"
-    (ngSubmit)="createChat()"
-  >
-    <div class="form-group has-feedback">
-      <label
-        for="title"
-        class="control-label"
-      >Title</label>
-      <input id="title"
-             formControlName="title"
-             type="text"
-             class="form-control">
+<div class="modal fade" id="newChatModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+        <h4 class="modal-title" id="modalLabel">CREATE NEW CHAT</h4>
+      </div>
+      <form
+        *ngIf="!newChatDone"
+        [formGroup]="form"
+        (ngSubmit)="createChat()"
+      >
+        <div class="modal-body">
+          <div class="form-group has-feedback">
+            <label
+              for="title"
+              class="control-label"
+            >Title</label>
+            <input id="title"
+                   formControlName="title"
+                   type="text"
+                   class="form-control">
+          </div>
+          <div class="form-group has-feedback">
+            <label
+              for="message"
+              class="control-label"
+            >Message</label>
+            <input id="message"
+                   formControlName="message"
+                   type="text"
+                   class="form-control">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button [disabled]="form.invalid || form.disabled" id="submitBtn" class="btn btn-block" type="submit">submit</button>
+          <button type="button" class="btn btn-block" data-dismiss="modal" id="cancelBtn">cancel</button>
+        </div>
+      </form>
+      <div *ngIf="newChatDone">
+        <div class="modal-body">
+          <p>NEW CHAT CREATED!</p></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-block" data-dismiss="modal">OK!</button>
+        </div>
+      </div>
     </div>
-    <div class="form-group has-feedback">
-      <label
-        for="message"
-        class="control-label"
-      >Message</label>
-      <input id="message"
-             formControlName="message"
-             type="text"
-             class="form-control">
-    </div>
-
-    <button [disabled]="form.invalid || form.disabled" class="btn btn-block" type="submit">submit</button>
-    <button class="btn btn-block">cancel</button>
-  </form>
-
+  </div>
 </div>
+

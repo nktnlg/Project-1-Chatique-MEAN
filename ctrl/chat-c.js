@@ -12,7 +12,7 @@ module.exports.getAll = async function (req, res) {
 
 module.exports.getById = async function (req, res) {
     try {
-        const chat = await Chat.find({_id: req.params.id})
+        const chat = await Chat.findById(req.params.id)
         res.status(200).json(chat)
     } catch (e) {
         errHandle(res, e)
@@ -47,7 +47,8 @@ module.exports.patch = async function (req, res) {
 }
 
 module.exports.delete = async function (req, res) {
-    const candidate = await Chat.findOne({_id: req.params.id})
+    // req need chat id
+    const candidate = await Chat.findOne({_id: req.params.id}).catch((error)=>{console.error(error)})
     if (candidate) {
         try {
             await Chat.deleteOne({_id: req.params.id})

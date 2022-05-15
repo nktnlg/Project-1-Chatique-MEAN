@@ -14,9 +14,9 @@ export class TokenInterceptor implements HttpInterceptor{
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log(`intercept attempt, isAuth:${this.auth.isAuthenticated()} / Token: ${this.auth.getToken()}`)
+    //console.log(`intercept attempt, isAuth:${this.auth.isAuthenticated()} / Token: ${this.auth.getToken()}`)
     if (this.auth.isAuthenticated()){
-      console.log('intercept if isAuthenticated passed true')
+      //console.log('intercept isAuthenticated passed true')
       req = req.clone(
         {
           setHeaders: {

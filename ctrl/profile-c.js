@@ -47,10 +47,10 @@ module.exports.patch = async function(req, res) {
 
 
 module.exports.delete = async function (req, res) {
-    console.log(req.params.id)
-    console.log(req.user.id)
+    //console.log(req.params.id)
+    //console.log(req.user.id)
     const candidate = await User.findOne({_id: req.params.id}).catch((error)=>{console.error(error)})
-    console.log(`api delete, candidate is ${candidate}`)
+    //console.log(`api delete, candidate is ${candidate}`)
     if (candidate && req.params.id == req.user.id) {
         try {
             await User.deleteOne({_id: req.params.id})

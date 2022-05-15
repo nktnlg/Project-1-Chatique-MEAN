@@ -14,6 +14,7 @@ import {MainPageComponent} from './main-page/main-page.component';
 import {ProfilePageComponent} from './profile-page/profile-page.component';
 import {ChatPageComponent} from './chat-page/chat-page.component';
 import {TokenInterceptor} from "./shared/classes/token.interceptor";
+import { ChatWindowComponent } from './chat-window/chat-window.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import {TokenInterceptor} from "./shared/classes/token.interceptor";
     RegPageComponent,
     MainPageComponent,
     ProfilePageComponent,
-    ChatPageComponent
+    ChatPageComponent,
+    ChatWindowComponent
   ],
   imports: [
     BrowserModule,

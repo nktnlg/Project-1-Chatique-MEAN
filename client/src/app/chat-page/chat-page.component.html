@@ -1,3 +1,47 @@
-<p>CHAT NAME HERE</p>
-<div class="chatbox"> chat functionality here </div>
+<h3>{{chatInfo.title}}</h3>
+<div *ngIf="chatOwner">
+  <button class="btn btn-block" (click)="deleteForm = !deleteForm">DELETE CHAT</button>
+  <form
+    *ngIf="deleteForm"
+    [formGroup]="form"
+    (ngSubmit)="deleteChat()"
+  >
+    <div
+      class="form-group has-feedback"
+      [ngClass]="form.get('passwordDel').untouched ? ''
+    : (form.get('passwordDel').invalid) ? 'has-error'
+    : wrongPasswordDel? 'has-error' : 'has-success'"
+    >
+      <label
+        class="control-label" for="passwordDel"
+      > Please confirm password</label>
+      <input
+        id="passwordDel"
+        type="password"
+        class="form-control"
+        formControlName="passwordDel"
+      >
+
+      <span *ngIf="form.get('passwordDel').invalid && form.get('passwordDel').touched"
+            class="glyphicon glyphicon-remove form-control-feedback"></span>
+      <span
+        *ngIf="form.get('passwordDel').invalid && form.get('passwordDel').touched && !form.get('passwordDel').hasError('required')"
+        class="help-block">6 char min.</span>
+      <span *ngIf="form.get('passwordDel').hasError('required') && form.get('passwordDel').touched" class="help-block">Cannot be empty</span>
+      <span class="help-block" *ngIf="wrongPasswordDel" style="color: darkred">You have entered wrong password, please try again</span>
+    </div>
+
+    <br>
+    <button class="btn btn-block" type="submit">DELETE</button>
+    <hr>
+
+  </form>
+</div>
+
+<br>
+<div class="chatbox">
+  <app-chat-window></app-chat-window>
+</div>
+<br>
 <button class="btn btn-block" routerLink="/main">BACK</button>
+

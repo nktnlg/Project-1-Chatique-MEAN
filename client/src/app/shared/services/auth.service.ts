@@ -23,12 +23,12 @@ export class AuthService {
 
 
   passCheck(user: User): Observable<any>{
-    console.log(user)
+    //console.log(user)
     return this.http.post<User>('/api/auth/passwordCheck', user)
   }
 
   login(user: User): Observable<{token:string}>{
-    console.log(`auth.service.login: login attempt, now token is ${this.token}, entering as ${user.username}`)
+    //console.log(`auth.service.login: login attempt, now token is ${this.token}, entering as ${user.username}`)
     return this.http.post<{token:string}>('/api/auth/login', user).pipe(
       tap(
         ({token}) => {
@@ -36,8 +36,8 @@ export class AuthService {
           this.setToken(token)
           this.tokenService.tokenUsername()
           this.tokenService.tokenId()
-          console.log(`auth.service.login: gettoken now is ${this.getToken()}`)
-          console.log(`auth.service.login: isAuthenticated now is ${this.isAuthenticated()}`)
+          //console.log(`auth.service.login: gettoken now is ${this.getToken()}`)
+          //console.log(`auth.service.login: isAuthenticated now is ${this.isAuthenticated()}`)
         }
       )
     )

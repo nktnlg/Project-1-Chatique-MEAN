@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService} from "../shared/services/auth.service";
 import {ChatService} from "../shared/services/chat.service";
 import {Observable, Subscription} from "rxjs";

@@ -1,6 +1,25 @@
-<p> Please confirm password</p>
-  <input
-    type="text"
-    class="form-control"
-    formControlName="password"
-  >
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      authorname: 00-00-00:00
+    </div>
+    <div class="panel-body">
+      This is a message!
+    </div>
+  </div>
+
+
+this.route.params.pipe( switchMap( (params: Params) => {
+            if (params['id']) {
+              //If id in params, we fetch Category observable (by id)
+              return this.chat.fetchOne(params['id'])
+            }
+            //If not, we return Null observable
+            return of(null)
+          }))
+      .subscribe(
+        (chatById: Chat) => {
+          this.chatInfo = chatById
+          console.log(chatById.user)
+          console.log(this.id)
+          this.chatOwner = chatById.user == this.id
+      },

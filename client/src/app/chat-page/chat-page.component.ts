@@ -69,8 +69,8 @@ export class ChatPageComponent implements OnInit, OnDestroy {
       .subscribe(
         (chatById: Chat) => {
           this.chatInfo = chatById
-          console.log(chatById.user)
-          console.log(this.id)
+          //console.log(chatById.user)
+          //console.log(this.id)
           this.chatOwner = chatById.user == this.id
       },
         error => console.log(error)

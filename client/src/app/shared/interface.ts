@@ -12,3 +12,12 @@ export interface Chat {
   _id?: string,
   messageCount?: number
 }
+
+export interface ChatMessage {
+  message: string,
+  date?: Date,
+  chat?: string,
+  user?: string,
+  _id?: string
+}
+

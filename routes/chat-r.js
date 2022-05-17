@@ -7,7 +7,7 @@ const controller = require('../ctrl/chat-c')
 router.get('/', passport.authenticate('jwt', {session: false}), controller.getAll)
 router.post('/', passport.authenticate('jwt', {session: false}), controller.new)
 router.get('/:id', passport.authenticate('jwt', {session: false}), controller.getById)
-router.patch('/:id', passport.authenticate('jwt', {session: false}), controller.patch)
+router.patch('/:id', passport.authenticate('jwt', {session: false}), controller.update)
 router.delete('/:id', passport.authenticate('jwt', {session: false}), controller.delete)
 
 module.exports = router

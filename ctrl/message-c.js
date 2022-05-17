@@ -18,6 +18,7 @@ module.exports.getByChat = async function(req, res) {
 }
 
 module.exports.new = async function(req, res) {
+    //req needs message, chatId, userId
     const candidate = await Chat.find({_id: req.params.chatId}).catch((error)=>{console.error(error)})
     if (candidate) {
         try {

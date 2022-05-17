@@ -21,6 +21,10 @@ export class ChatService {
     return this.http.post<Chat>('/api/chat/', chat)
   }
 
+  update(id: string, newData: Chat): Observable<Chat>{
+    return this.http.patch<Chat>(`/api/chat/${id}`, newData)
+  }
+
   delete(id: string): Observable<Message>{
     return this.http.delete<Message>(`/api/chat/${id}`)
   }

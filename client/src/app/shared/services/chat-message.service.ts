@@ -13,7 +13,7 @@ export class ChatMessageService {
     return this.http.get<ChatMessage[]>(`/api/message/${chatId}`)
   }
 
-  create(chatId: string, msg: ChatMessage): Observable<ChatMessage>{
+  create(chatId: string, msg: string): Observable<ChatMessage>{
     return this.http.post<ChatMessage>(`/api/message/${chatId}`, msg)
   }
 

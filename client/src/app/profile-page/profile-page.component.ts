@@ -17,7 +17,6 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
 
   aSub: Subscription
   bSub: Subscription
-  cSub: Subscription
 
   form: FormGroup
   form2: FormGroup
@@ -118,7 +117,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   }
 
   delete() {
-    this.cSub = this.auth.passCheck({
+    this.auth.passCheck({
       username: this.name,
       password: this.form2.value.passwordDel
     })
@@ -149,9 +148,6 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
       this.aSub.unsubscribe()
     }
     if (this.bSub) {
-      this.bSub.unsubscribe()
-    }
-    if (this.cSub) {
       this.bSub.unsubscribe()
     }
   }

@@ -1,5 +1,5 @@
 module.exports = {
     mongoURI: process.env.MONGO_URI,
-    jwt: process.env.JWT
+    jwt: process.env.JWT,
     admissionCode: process.env.admissionCode
 }

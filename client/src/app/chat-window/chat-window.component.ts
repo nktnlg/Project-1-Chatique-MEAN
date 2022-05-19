@@ -40,9 +40,7 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
   joined$: Observable<any>
 
   form: FormGroup
-  aSub: Subscription
-  bSub: Subscription
-  cSub: Subscription
+
 
   userId = ''
   toDelete= ''
@@ -68,7 +66,7 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
 
 
     //this.chatMessages$ = this.msgService.fetchByChat(this.chatId)
-    this.bSub = this.msgService.fetchByChat(this.chatId).subscribe(
+    this.msgService.fetchByChat(this.chatId).subscribe(
       res=>{this.messagesCount$ = res.length}, error => console.error(error)
     )
 
@@ -119,7 +117,7 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
       messageCount: this.messagesCount$+1
     }
 
-    this.aSub = this.msgService.create(this.chatId, msg).subscribe(
+    this.msgService.create(this.chatId, msg).subscribe(
       res => {
         this.form.reset()
         this.form.enable()
@@ -139,7 +137,7 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
     const chatUpdate: Chat = {
       messageCount: this.messagesCount$-1
     }
-    this.cSub = this.msgService.delete(this.toDelete).subscribe(
+    this.msgService.delete(this.toDelete).subscribe(
       ()=>{
         this.msgDeleted = true
         this.ngOnInit()
@@ -153,15 +151,7 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.aSub) {
-      this.aSub.unsubscribe()
-    }
-    if (this.bSub) {
-      this.bSub.unsubscribe()
-    }
-    if (this.cSub) {
-      this.cSub.unsubscribe()
-    }
+
   }
 //end
 }

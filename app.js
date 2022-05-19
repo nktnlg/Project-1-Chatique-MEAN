@@ -27,15 +27,10 @@ app.use(cors())
 
 app.use(passport.initialize())
 require('./mid/passport')(passport)
-//
-//eto tut vremenno
-/*const upload = require('./mid/upload')*/
+
 
 //APP
 
-app.get('/', (req, res)=>{
-    res.status(200).json({message: 'working 666'})
-})
 
 app.use('/uploads', express.static('uploads'))
 app.use('/api/auth', authRoutes)

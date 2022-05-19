@@ -34,8 +34,7 @@ import {ChatService} from "../shared/services/chat.service";
 export class ChatWindowComponent implements OnInit, OnDestroy {
 
   @Input('chatId') chatId: string
-  chatMessages$: Observable<ChatMessage[]>
-  chatUsers$: Observable<User[]>
+  //chatMessages$: Observable<ChatMessage[]>
   messagesCount$: number
 
   joined$: Observable<any>
@@ -43,6 +42,8 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
   form: FormGroup
   aSub: Subscription
   bSub: Subscription
+  cSub: Subscription
+
   userId = ''
   toDelete= ''
   msgDeleted = false
@@ -57,10 +58,7 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    /*this.thisChat$ = this.chat.fetchOne().subscribe(
-      res=>{res.},
-      error => {console.error(error)}
-    )*/
+
 
     this.userId = this.tokenService.tokenId()
 
@@ -69,13 +67,12 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
     })
 
 
-    this.chatMessages$ = this.msgService.fetchByChat(this.chatId)
-    this.chatUsers$ = this.profile.getUsers()
-    this.chatMessages$.subscribe(
+    //this.chatMessages$ = this.msgService.fetchByChat(this.chatId)
+    this.bSub = this.msgService.fetchByChat(this.chatId).subscribe(
       res=>{this.messagesCount$ = res.length}, error => console.error(error)
     )
 
-    this.joined$ = this.chatMessages$.pipe(
+    this.joined$ = this.msgService.fetchByChat(this.chatId).pipe(
       //first
       switchMap(chatMessages => {
         const userIds = uniq(chatMessages.map(msgs => msgs.user))
@@ -86,7 +83,7 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
           //сообщения
           of(chatMessages),
           // объекты юзеры (айди и юзернейм)
-          combineLatest(
+          combineLatest<User[]>(
             // берем массив айдишек и по каждому обращаемся к потоку запроса юзеров
             userIds.map(
               userId => this.profile.getUser(userId)
@@ -109,19 +106,17 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnDestroy(): void {
-  }
+
 
   sendMsg(){
     //send Chat with lastMsg=msg and messageCount++ date=now()
     this.form.disable()
     const msg = this.form.value
-    const counter = this.messagesCount$
 
     const chatUpdate: Chat = {
       date: new Date(Date.now()),
       lastMessage: msg.message,
-      messageCount: counter
+      messageCount: this.messagesCount$+1
     }
 
     this.aSub = this.msgService.create(this.chatId, msg).subscribe(
@@ -141,15 +136,32 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
   }
 
   delete(){
-    console.log(this.toDelete)
-    this.msgService.delete(this.toDelete).subscribe(
+    const chatUpdate: Chat = {
+      messageCount: this.messagesCount$-1
+    }
+    this.cSub = this.msgService.delete(this.toDelete).subscribe(
       ()=>{
         this.msgDeleted = true
         this.ngOnInit()
+        this.chat.update(this.chatId, chatUpdate).subscribe(
+          ()=>{console.log('ya umnichka')},
+          error => console.error(error)
+        )
       },
       error => {console.error(error)}
     )
   }
 
+  ngOnDestroy(): void {
+    if (this.aSub) {
+      this.aSub.unsubscribe()
+    }
+    if (this.bSub) {
+      this.bSub.unsubscribe()
+    }
+    if (this.cSub) {
+      this.cSub.unsubscribe()
+    }
+  }
 //end
 }

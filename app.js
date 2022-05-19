@@ -6,6 +6,7 @@ const profileRoutes = require('./routes/profile-r')
 //
 
 // LIBRARIES
+const path = require('path');
 const passport = require('passport')
 const keys = require('./config/keys')
 const express = require('express')

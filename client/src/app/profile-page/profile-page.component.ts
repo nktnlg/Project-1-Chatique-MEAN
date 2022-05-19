@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TokenService} from "../shared/services/token.service";
 import {ProfileService} from "../shared/services/profile.service";
 import {AuthService} from "../shared/services/auth.service";
@@ -6,13 +6,18 @@ import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {User} from "../shared/interface";
 import {LoggedLayoutComponent} from "../layout/logged-layout/logged-layout.component";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
   styles: []
 })
-export class ProfilePageComponent implements OnInit {
+export class ProfilePageComponent implements OnInit, OnDestroy {
+
+  aSub: Subscription
+  bSub: Subscription
+  cSub: Subscription
 
   form: FormGroup
   form2: FormGroup
@@ -38,7 +43,7 @@ export class ProfilePageComponent implements OnInit {
     this.name = this.tokenService.tokenUsername()
     this.id = this.tokenService.tokenId()
 
-    this.route.queryParams.subscribe((params: Params) => {
+    this.aSub = this.route.queryParams.subscribe((params: Params) => {
       if (params['userExists']) {
         this.userExists = true
       } else { this.userExists = false}
@@ -65,7 +70,7 @@ export class ProfilePageComponent implements OnInit {
       username: this.form.value.username,
       password: this.form.value.password
     }
-    this.auth.passCheck({
+    this.bSub = this.auth.passCheck({
       username: this.name,
       password: user1.password
     })
@@ -113,7 +118,7 @@ export class ProfilePageComponent implements OnInit {
   }
 
   delete() {
-    this.auth.passCheck({
+    this.cSub = this.auth.passCheck({
       username: this.name,
       password: this.form2.value.passwordDel
     })
@@ -139,5 +144,17 @@ export class ProfilePageComponent implements OnInit {
         })
   }
 
-    //end
+  ngOnDestroy(): void {
+    if (this.aSub) {
+      this.aSub.unsubscribe()
+    }
+    if (this.bSub) {
+      this.bSub.unsubscribe()
+    }
+    if (this.cSub) {
+      this.bSub.unsubscribe()
+    }
+  }
+
+  //end
   }

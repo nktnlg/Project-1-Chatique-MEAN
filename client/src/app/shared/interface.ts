@@ -5,10 +5,19 @@ export interface User {
   _id?: string
 }
 export interface Chat {
-  title: string,
+  title?: string,
   user?: string,
   date?: Date,
   lastMessage?: string,
   _id?: string,
   messageCount?: number
 }
+
+export interface ChatMessage {
+  message: string,
+  date?: Date,
+  chat?: string,
+  user?: string,
+  _id?: string
+}
+

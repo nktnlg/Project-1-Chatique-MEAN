@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Chat} from "../shared/interface";
 import {ChatService} from "../shared/services/chat.service";
 import {ActivatedRoute, Params, Router} from "@angular/router";
-import {of} from "rxjs";
+import {of, Subscription} from "rxjs";
 import {switchMap} from "rxjs/operators";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../shared/services/auth.service";
@@ -31,6 +31,9 @@ export class ChatPageComponent implements OnInit, OnDestroy {
   id = ''
   chatId = ''
   chatOwner = false
+  aSub: Subscription
+  bSub: Subscription
+  cSub: Subscription
 
   constructor(
     private chat: ChatService,
@@ -52,13 +55,13 @@ export class ChatPageComponent implements OnInit, OnDestroy {
       passwordDel: new FormControl(null, [Validators.required, Validators.minLength(6)])
     })
 
-    this.route.queryParams.subscribe((params: Params) => {
+    this.aSub = this.route.queryParams.subscribe((params: Params) => {
       if (params['wrongPasswordDel']) {
         this.wrongPasswordDel = true
       } else { this.wrongPasswordDel = false}
     })
 
-    this.route.params.pipe( switchMap( (params: Params) => {
+    this.bSub = this.route.params.pipe( switchMap( (params: Params) => {
             if (params['id']) {
               //If id in params, we fetch Category observable (by id)
               return this.chat.fetchOne(params['id'])
@@ -69,20 +72,21 @@ export class ChatPageComponent implements OnInit, OnDestroy {
       .subscribe(
         (chatById: Chat) => {
           this.chatInfo = chatById
-          console.log(chatById.user)
-          console.log(this.id)
+          //console.log(chatById.user)
+          //console.log(this.id)
           this.chatOwner = chatById.user == this.id
       },
         error => console.log(error)
     )
+
+
   }
 
-  ngOnDestroy(): void {
-  }
+
 
 
   deleteChat() {
-    this.auth.passCheck({
+    this.cSub = this.auth.passCheck({
       username: this.name,
       password: this.form.value.passwordDel
     })
@@ -107,5 +111,16 @@ export class ChatPageComponent implements OnInit, OnDestroy {
         })
   }
 
+  ngOnDestroy(): void {
+    if (this.aSub) {
+      this.aSub.unsubscribe()
+    }
+    if (this.bSub) {
+      this.bSub.unsubscribe()
+    }
+    if (this.cSub) {
+      this.cSub.unsubscribe()
+    }
+  }
 //end
 }

@@ -33,7 +33,7 @@ module.exports.new = async function (req, res) {
     }
 }
 
-module.exports.patch = async function (req, res) {
+module.exports.update = async function (req, res) {
     try {
         const chat = await Chat.findOneAndUpdate(
             {_id: req.params.id},

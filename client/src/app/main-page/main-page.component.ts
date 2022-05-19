@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService} from "../shared/services/auth.service";
 import {ChatService} from "../shared/services/chat.service";
 import {Observable, Subscription} from "rxjs";
@@ -17,6 +17,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
   chats$: Observable<Chat[]>
   form: FormGroup
   aSub: Subscription
+
   newChatDone: Boolean = false
 
   constructor(
@@ -32,11 +33,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
     })
   }
 
-  ngOnDestroy(): void {
-    if (this.aSub) {
-      this.aSub.unsubscribe()
-    }
-  }
+
 
   logout(){
     this.auth.logout()
@@ -60,6 +57,12 @@ export class MainPageComponent implements OnInit, OnDestroy {
         console.log(error)
       }
     )
+  }
+
+  ngOnDestroy(): void {
+    if (this.aSub) {
+      this.aSub.unsubscribe()
+    }
   }
 
   ///end

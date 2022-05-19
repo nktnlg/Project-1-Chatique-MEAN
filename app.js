@@ -43,13 +43,20 @@ app.use('/api/chat', chatRoutes)
 app.use('/api/message', messageRoutes)
 app.use('/api/profile', profileRoutes)
 
-//eto tut vremenno
-/*app.post("/upload_files", upload.single('avatar'), uploadFiles);
-function uploadFiles(req, res) {
-    const path = req.file.path
-    res.status(200).json({path})
-}*/
 
+
+if (process.env.NODE_ENV === 'production') {
+
+    app.use(express.static('client/dist/client'))
+
+    app.get('*', (req, res) => {
+        res.sendFile(
+            path.resolve(
+                __dirname, 'client', 'dist', 'client', 'index.html'
+            )
+        )
+    })
+}
 
 
 module.exports = app

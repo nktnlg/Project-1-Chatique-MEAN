@@ -26,8 +26,13 @@
     "s-start": "nodemon index",
     "c-install": "npm install --prefix client",
     "c-start": "npm run start --prefix client",
-    "dev": "concurrently \"npm run s-start\" \"npm run c-start\""
+    "dev": "concurrently \"npm run s-start\" \"npm run c-start\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run c-install && npm run build --prefix client"
   },
   "author": "nktnlg",
-  "license": "ISC"
+  "license": "ISC",
+  "engines": {
+    "node": "14.15.0",
+    "npm": "6.14.8"
+  }
 }

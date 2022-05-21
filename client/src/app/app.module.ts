@@ -15,6 +15,7 @@ import {ProfilePageComponent} from './profile-page/profile-page.component';
 import {ChatPageComponent} from './chat-page/chat-page.component';
 import {TokenInterceptor} from "./shared/classes/token.interceptor";
 import { ChatWindowComponent } from './chat-window/chat-window.component';
+import {CommonModule} from "@angular/common";
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { ChatWindowComponent } from './chat-window/chat-window.component';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    CommonModule
   ],
   providers: [
     {

@@ -11,7 +11,7 @@
         >
           <span>&times;</span>
         </button>
-        {{msg.username.username}}: {{msg.date}}
+        {{msg.username.username}}: {{msg.date | date:'short'}}
       </div>
       <div class="panel-body">
         {{msg.message}}
@@ -24,13 +24,14 @@
 
 <div class="input">
   <form
-
-
     [formGroup]="form"
     (ngSubmit)="sendMsg()">
     <div class="input-group">
 
-      <span class="input-group-addon sender" (click)="sendMsg()">
+      <span
+        class="input-group-addon sender"
+        (click)="sendMsg()"
+      >
           <span class="glyphicon glyphicon-ok"></span>
       </span>
 

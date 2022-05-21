@@ -21,13 +21,15 @@ import {ChatService} from "../shared/services/chat.service";
     display: flex;
     flex-direction: column-reverse;
   }
+
   .input {
     height: 6%;
     background: lightblue;
   }
-    .sender{
-      cursor: pointer;
-    }
+
+  .sender {
+    cursor: pointer;
+  }
   `
   ]
 })
@@ -43,7 +45,7 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
 
 
   userId = ''
-  toDelete= ''
+  toDelete = ''
   msgDeleted = false
 
   constructor(
@@ -67,8 +69,11 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
 
     //this.chatMessages$ = this.msgService.fetchByChat(this.chatId)
     this.msgService.fetchByChat(this.chatId).subscribe(
-      res=>{this.messagesCount$ = res.length}, error => console.error(error)
+      res => {
+        this.messagesCount$ = res.length
+      }, error => console.error(error)
     )
+
 
     this.joined$ = this.msgService.fetchByChat(this.chatId).pipe(
       //first
@@ -84,14 +89,17 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
           combineLatest<User[]>(
             // берем массив айдишек и по каждому обращаемся к потоку запроса юзеров
             userIds.map(
-              userId => this.profile.getUser(userId)
-                .pipe(map(users => users[0]))
+              userId =>
+                this.profile.getUser(userId)
+                  .pipe(map(users => users[0]))
             )
           )
         )
       }),
       //then
       map(([chatMessages, users]) => {
+          console.log(users)
+          //if (users.includes(undefined)){ users.find(users => user === undefined)}
           return chatMessages.map(chatMessage => {
             return {
               ...chatMessage,
@@ -105,53 +113,61 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
   }
 
 
-
-  sendMsg(){
+  sendMsg() {
     //send Chat with lastMsg=msg and messageCount++ date=now()
     this.form.disable()
     const msg = this.form.value
 
-    const chatUpdate: Chat = {
-      date: new Date(Date.now()),
-      lastMessage: msg.message,
-      messageCount: this.messagesCount$+1
-    }
+    if (this.form.valid){
+      const chatUpdate: Chat = {
+        date: new Date(Date.now()),
+        lastMessage: msg.message,
+        messageCount: this.messagesCount$ + 1
+      }
 
-    this.msgService.create(this.chatId, msg).subscribe(
-      res => {
-        this.form.reset()
-        this.form.enable()
+      this.msgService.create(this.chatId, msg).subscribe(
+        res => {
+          this.form.reset()
+          this.form.enable()
+          this.ngOnInit()
+          this.chat.update(this.chatId, chatUpdate).subscribe(
+            () => {
+            },
+            error => console.error(error)
+          )
+        },
+        error => {
+          console.log(error)
+          this.form.enable()
+        }
+      )
+    }
+    this.form.enable()
+  }
+
+  delete() {
+    const chatUpdate: Chat = {
+      messageCount: this.messagesCount$ - 1
+    }
+    this.msgService.delete(this.toDelete).subscribe(
+      () => {
+        this.msgDeleted = true
         this.ngOnInit()
         this.chat.update(this.chatId, chatUpdate).subscribe(
-          ()=>{console.log('ya molodets')},
+          () => {
+          },
           error => console.error(error)
         )
       },
       error => {
-        console.log(error)
-        this.form.enable()}
-    )
-  }
-
-  delete(){
-    const chatUpdate: Chat = {
-      messageCount: this.messagesCount$-1
-    }
-    this.msgService.delete(this.toDelete).subscribe(
-      ()=>{
-        this.msgDeleted = true
-        this.ngOnInit()
-        this.chat.update(this.chatId, chatUpdate).subscribe(
-          ()=>{console.log('ya umnichka')},
-          error => console.error(error)
-        )
-      },
-      error => {console.error(error)}
+        console.error(error)
+      }
     )
   }
 
   ngOnDestroy(): void {
 
   }
+
 //end
 }

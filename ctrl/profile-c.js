@@ -4,11 +4,7 @@ const User = require('../models/User-m')
 module.exports.getById = async function(req, res) {
     try {
         const user = await User.find({_id: req.params.id})
-        if (user){
-            res.status(200).json(user)
-        } else {res.status(200).json({
-            _id: req.params.id,
-            username: 'DELETED'})}
+        res.status(200).json(user)
     } catch(e) { errHandle(res, e) }
 }
 module.exports.getAll = async function(req, res) {

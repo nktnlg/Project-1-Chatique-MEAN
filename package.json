@@ -24,9 +24,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index",
+    "dev-start": "nodemon index",
     "c-install": "npm install --prefix client",
     "c-start": "npm run start --prefix client",
-    "dev": "concurrently \"npm run s-start\" \"npm run c-start\"",
+    "dev": "concurrently \"npm run dev-start\" \"npm run c-start\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run c-install && npm run build --prefix client"
   },
   "author": "nktnlg",

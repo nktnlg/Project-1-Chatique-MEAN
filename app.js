@@ -39,8 +39,23 @@ app.use('/api/chat', chatRoutes)
 app.use('/api/message', messageRoutes)
 app.use('/api/profile', profileRoutes)
 
+//если путь несуществующий
+/*app.use((req,res,next)=>{
+    const error = new Error('not found')
+    error.status = 404
+    next(error)
+})*/
 
+/*app.use((req,res,next)=>{
+    res.status(error.status || 500)
+    res.json({
+        error: {
+            message: error.message
+        }
+    })
+})*/
 
+// Использовать билд на проде
 if (process.env.NODE_ENV === 'production') {
 
     app.use(express.static('client/dist/client'))

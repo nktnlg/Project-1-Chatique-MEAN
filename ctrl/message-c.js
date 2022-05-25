@@ -1,11 +1,28 @@
 const errHandle = require('../tools/errHandle')
 const Message = require('../models/Message-m')
 const Chat = require('../models/User-m')
+const User = require('../models/User-m')
 
-module.exports.getAll = async function(req, res){
+module.exports.getAll = /*async*/ function(req, res){
     try {
-        const messages = await Message.find()
-        res.status(200).json(messages)
+        //const messages = await
+            Message.find().select('_id message chat date user').then(msgs =>{
+                const response = {
+                    count: msgs.length,
+                    messages: msgs.map(msg => {
+                        return {
+                            _id: msg._id,
+                            message: msg.message,
+                            chat: msg.chat,
+                            date: msg.date,
+                            user: msg.user
+                        }
+                    })
+                }
+                res.status(200).json(response)}
+
+        )
+
     } catch (e) {
         errHandle(res, e)
     }

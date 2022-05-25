@@ -115,7 +115,6 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
 
   sendMsg() {
     //send Chat with lastMsg=msg and messageCount++ date=now()
-    this.form.disable()
     const msg = this.form.value
 
     if (this.form.valid){
@@ -142,7 +141,6 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
         }
       )
     }
-    this.form.enable()
   }
 
   delete() {

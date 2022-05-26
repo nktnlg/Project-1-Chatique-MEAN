@@ -37,10 +37,6 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
   @Input('chatId') chatId: string
   chatMessages$: any
   messagesCount$: number
-  result: number
-
-  joined$: Observable<any>
-
   form: FormGroup
 
 

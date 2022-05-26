@@ -1,9 +1,11 @@
 <form
+  id="authLoginForm"
   [formGroup]="form"
   (ngSubmit)="onSubmit()"
 >
 
   <div
+    id="authLoginUsername"
     class="form-group has-feedback"
     [ngClass]="{'has-error': (form.get('username').invalid && form.get('username').touched) || wrongCredentials}"
   >
@@ -23,6 +25,7 @@
   </div>
 
   <div
+    id="authLoginPassword"
     class="form-group has-feedback"
     [ngClass]="{'has-error': (form.get('password').invalid && form.get('password').touched) || wrongCredentials}"
   >
@@ -43,7 +46,7 @@
   <button
     [disabled]="form.invalid || form.disabled"
     class="btn btn-block"
-
+    id="authLoginSubmitBtn"
     type="submit"
   >ENTER</button>
 </form>

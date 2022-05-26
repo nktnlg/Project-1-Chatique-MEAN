@@ -1,12 +1,13 @@
 <hr>
 <p>Profile settings</p>
 <div>
-  USERNAME: <b>{{name}}</b>
-  <button class="btn" (click)="changeForm = !changeForm">CHANGE</button>
+  <p id="loggedProfileCurrentUsername">USERNAME: <b>{{name}}</b></p>
+  <button id="loggedProfileChangeUsernameBtn" class="btn" (click)="changeForm = !changeForm">CHANGE</button>
 </div>
 <br>
 
 <form
+  id="loggedProfileChangeUsernameForm"
   *ngIf="changeForm"
   [formGroup]="form"
   (ngSubmit)="changeName()"
@@ -63,15 +64,16 @@
     <span class="help-block" *ngIf="wrongPassword" style="color: darkred">You have entered wrong password, please try again</span>
   </div>
   <br>
-  <button class="btn btn-block" type="submit">SUBMIT</button>
+  <button class="btn btn-block" type="submit" id="loggedProfileChangeUsernameConfirmBtn">SUBMIT</button>
   <hr>
 
 </form>
 
 
-<button class="btn btn-block" (click)="deleteForm = !deleteForm">DELETE USER</button>
+<button class="btn btn-block" (click)="deleteForm = !deleteForm" id="loggedProfileDeleteUserBtn">DELETE USER</button>
 
 <form
+  id="loggedProfileDeleteUserForm"
   *ngIf="deleteForm"
   [formGroup]="form2"
   (ngSubmit)="delete()"
@@ -102,10 +104,10 @@
   </div>
 
   <br>
-  <button class="btn btn-block" type="submit">DELETE</button>
+  <button class="btn btn-block" type="submit" id="loggedProfileDeleteUserConfirmBtn">DELETE</button>
   <hr>
 
 </form>
 
 <hr>
-<button class="btn btn-block" routerLink="/main">BACK</button>
+<button class="btn btn-block" routerLink="/main" id="loggedProfileBackBtn">BACK</button>

@@ -1,7 +1,8 @@
-<h3>{{chatInfo.title}}</h3>
-<div *ngIf="chatOwner">
-  <button class="btn btn-block" (click)="deleteForm = !deleteForm">DELETE CHAT</button>
+<h3 id="chatTitle">{{chatInfo.title}}</h3>
+<div *ngIf="chatOwner" id="deleteIfAllowed">
+  <button class="btn btn-block" (click)="deleteForm = !deleteForm" id="chatDeleteBtn">DELETE CHAT</button>
   <form
+    id="deleteChatForm"
     *ngIf="deleteForm"
     [formGroup]="form"
     (ngSubmit)="deleteChat()"
@@ -32,16 +33,16 @@
     </div>
 
     <br>
-    <button class="btn btn-block" type="submit">DELETE</button>
+    <button class="btn btn-block" type="submit" id="confirmDeleteChatBtn">DELETE</button>
     <hr>
 
   </form>
 </div>
 
 <br>
-<div class="chatbox">
+<div id="chatbox" class="chatbox">
   <app-chat-window [chatId]="chatId"></app-chat-window>
 </div>
 <br>
-<button class="btn btn-block" routerLink="/main">BACK</button>
+<button class="btn btn-block" routerLink="/main" id="chatBackBtn">BACK</button>
 

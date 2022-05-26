@@ -1,15 +1,17 @@
-<button class="btn btn-block" data-toggle="modal" data-target="#newChatModal" (click)="newChatDone=false">CREATE NEW CHAT</button>
+<button class="btn btn-block" data-toggle="modal" data-target="#newChatModal" (click)="newChatDone=false" id="loggedMainCreateBtn">CREATE NEW CHAT</button>
 
 <hr>
 <p>Existing chats:</p>
-<div class="list-group" *ngIf="chats$ | async as chats">
+<div
+  id="loggedMainChatsList"
+  class="list-group" *ngIf="chats$ | async as chats">
   <div class="list-group-item" *ngFor="let chat of chats" [routerLink]="['/chat', chat._id]">
     <b>{{chat.title}}:</b>  {{chat.lastMessage}} <span class="badge">{{chat.messageCount}}</span>
   </div>
 </div>
 <hr>
-<button class="btn btn-block" routerLink="/profile">PROFILE</button>
-<button class="btn btn-block" (click)="logout()">EXIT</button>
+<button class="btn btn-block" routerLink="/profile" id="loggedMainProfileBtn">PROFILE</button>
+<button class="btn btn-block" (click)="logout()" id="loggedMainExitBtn">EXIT</button>
 
 <div class="modal fade" id="newChatModal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">

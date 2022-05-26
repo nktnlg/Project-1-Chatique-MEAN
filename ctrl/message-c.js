@@ -52,8 +52,6 @@ module.exports.getByChat = async function (req, res) {
                 }
             })
 
-
-        console.log(response)
         res.status(200).json(response)
     } catch (e) {
         errHandle(res, e)

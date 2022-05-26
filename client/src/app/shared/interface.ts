@@ -13,11 +13,28 @@ export interface Chat {
   messageCount?: number
 }
 
-export interface ChatMessage {
-  message: string,
-  date?: Date,
-  chat?: string,
-  user?: string,
-  _id?: string
+export interface ChatMessagesPackage {
+  count: number
+  messages: [{
+    _id?: string
+    message: string,
+    chat?: string,
+    date?: Date,
+    user?: {
+      avatarSrc?: String,
+      _id?: String,
+      username?: String
+    }
+  }]
 }
-
+export interface ChatMessages {
+    _id?: string
+    message: string,
+    chat?: string,
+    date?: Date,
+    user?: {
+      avatarSrc?: String,
+      _id?: String,
+      username?: String
+    }
+  }

@@ -1,0 +1,101 @@
+<div class="messages">
+  <div *ngIf="chatMessages$ | async as msgs">
+    <div class="panel panel-default" *ngFor="let msg of msgs">
+      <div class="panel-heading">
+        <button
+          *ngIf="msg.user == userId"
+          type="button"
+          class="close"
+          data-toggle="modal" data-target="#deleteModal"
+          (click)="toDelete = msg._id; msgDeleted=false"
+        >
+          <span>&times;</span>
+        </button>
+        {{msg.user.username}}: {{msg.date | date:'short'}}
+      </div>
+      <div class="panel-body">
+        {{msg.message}}
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="input">
+  <form
+    [formGroup]="form"
+    (ngSubmit)="sendMsg()">
+    <div class="input-group">
+
+      <span
+        class="input-group-addon sender"
+        (click)="sendMsg()"
+      >
+          <span class="glyphicon glyphicon-ok"></span>
+      </span>
+
+
+      <input id="title"
+             formControlName="message"
+             type="text"
+             class="form-control">
+
+
+    </div>
+  </form>
+</div>
+
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document" >
+    <div class="modal-content">
+      <div *ngIf="!msgDeleted">
+        <div class="modal-header">
+          delete message?
+        </div>
+        <div class="modal-footer"  >
+          <button id="submitBtn" class="btn btn-block" (click)="delete()">yes</button>
+          <button type="button" class="btn btn-block" data-dismiss="modal" id="cancelBtn">cancel</button>
+        </div>
+      </div>
+
+      <div *ngIf="msgDeleted">
+        <div class="modal-header">
+          message deleted
+        </div>
+        <div class="modal-footer"  >
+          <button type="button" class="btn btn-block" data-dismiss="modal">ok</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+//// MESSAGE CONTROLLER
+
+module.exports.getByChat = async function (req, res) {
+    try {
+        const messages = await Message.find({chat: req.params.chatId}).select('_id message chat date user').populate('user', 'username avatarSrc')
+        const response = {
+            count: messages.length,
+            messages: messages.map(msg => {
+                return {
+                    _id: msg._id,
+                    message: msg.message,
+                    chat: msg.chat,
+                    date: msg.date,
+                    user: msg.user
+                }
+            })
+        }
+        res.status(200).json(response)
+    } catch (e) {
+        errHandle(res, e)
+    }
+}

@@ -1,13 +1,12 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {combineLatest, Observable, of, Subscription} from "rxjs";
-import {Chat, ChatMessage, User} from "../shared/interface";
+import {Observable} from "rxjs";
+import {Chat, ChatMessages, User} from "../shared/interface";
 import {ChatMessageService} from "../shared/services/chat-message.service";
 import {ProfileService} from "../shared/services/profile.service";
-import {map, switchMap} from "rxjs/operators";
-import {uniq} from "lodash"
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {TokenService} from "../shared/services/token.service";
 import {ChatService} from "../shared/services/chat.service";
+import {tap} from "rxjs/operators";
 
 
 @Component({
@@ -36,8 +35,9 @@ import {ChatService} from "../shared/services/chat.service";
 export class ChatWindowComponent implements OnInit, OnDestroy {
 
   @Input('chatId') chatId: string
-  //chatMessages$: Observable<ChatMessage[]>
+  chatMessages$: any
   messagesCount$: number
+  result: number
 
   joined$: Observable<any>
 
@@ -59,7 +59,6 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-
     this.userId = this.tokenService.tokenId()
 
     this.form = new FormGroup({
@@ -67,51 +66,9 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
     })
 
 
-    //this.chatMessages$ = this.msgService.fetchByChat(this.chatId)
-    this.msgService.fetchByChat(this.chatId).subscribe(
-      res => {
-        this.messagesCount$ = res.length
-      }, error => console.error(error)
-    )
-
-
-    this.joined$ = this.msgService.fetchByChat(this.chatId).pipe(
-      //first
-      switchMap(chatMessages => {
-        const userIds = uniq(chatMessages.map(msgs => msgs.user))
-        //массив с айдишниками
-        // console.log(userIds)
-
-        return combineLatest(
-          //сообщения
-          of(chatMessages),
-          // объекты юзеры (айди и юзернейм)
-          combineLatest<User[]>(
-            // берем массив айдишек и по каждому обращаемся к потоку запроса юзеров
-            userIds.map(
-              userId =>
-                this.profile.getUser(userId)
-                  .pipe(map(users => users[0]))
-            )
-          )
-        )
-      }),
-      //then
-      map(([chatMessages, users]) => {
-          console.log(users)
-          //if (users.includes(undefined)){ users.find(users => user === undefined)}
-          return chatMessages.map(chatMessage => {
-            return {
-              ...chatMessage,
-              username: users.find(a => a._id === chatMessage.user)
-            }
-          })
-        }
-      )
-    )
+    this.chatMessages$ = this.msgService.fetchByChat(this.chatId).pipe(tap(res => this.messagesCount$ = res.length))
 
   }
-
 
   sendMsg() {
     //send Chat with lastMsg=msg and messageCount++ date=now()
@@ -162,6 +119,7 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
       }
     )
   }
+
 
   ngOnDestroy(): void {
 

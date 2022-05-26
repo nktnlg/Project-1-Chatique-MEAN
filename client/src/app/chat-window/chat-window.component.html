@@ -1,9 +1,9 @@
 <div class="messages">
-  <div *ngIf="joined$ | async as msgs">
+  <div *ngIf="chatMessages$ | async as msgs">
     <div class="panel panel-default" *ngFor="let msg of msgs">
       <div class="panel-heading">
         <button
-          *ngIf="msg.user == userId"
+          *ngIf="msg.user._id == userId"
           type="button"
           class="close"
           data-toggle="modal" data-target="#deleteModal"
@@ -11,7 +11,7 @@
         >
           <span>&times;</span>
         </button>
-        {{msg.username.username}}: {{msg.date | date:'short'}}
+        {{msg.user.username}}: {{msg.date | date:'short'}}
       </div>
       <div class="panel-body">
         {{msg.message}}

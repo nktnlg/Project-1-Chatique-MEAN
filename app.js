@@ -9,11 +9,12 @@ const profileRoutes = require('./routes/profile-r')
 const path = require('path');
 const passport = require('passport')
 const keys = require('./config/keys')
+
 const express = require('express')
 const app = express()
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-
 
 const mongoose = require('mongoose')
 mongoose.connect(keys.mongoURI)
@@ -24,7 +25,6 @@ const cors = require('cors')
 const morgan = require('morgan')
 app.use(morgan('dev'))
 app.use(cors())
-
 
 app.use(passport.initialize())
 require('./mid/passport')(passport)
@@ -38,22 +38,6 @@ app.use('/api/auth', authRoutes)
 app.use('/api/chat', chatRoutes)
 app.use('/api/message', messageRoutes)
 app.use('/api/profile', profileRoutes)
-
-//если путь несуществующий
-/*app.use((req,res,next)=>{
-    const error = new Error('not found')
-    error.status = 404
-    next(error)
-})*/
-
-/*app.use((req,res,next)=>{
-    res.status(error.status || 500)
-    res.json({
-        error: {
-            message: error.message
-        }
-    })
-})*/
 
 // Использовать билд на проде
 if (process.env.NODE_ENV === 'production') {

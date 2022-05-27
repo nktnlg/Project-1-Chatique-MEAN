@@ -1,4 +1,4 @@
-<button class="btn btn-block" data-toggle="modal" data-target="#newChatModal" (click)="newChatDone=false" id="loggedMainCreateBtn">CREATE NEW CHAT</button>
+<button class="btn btn-block btn-primary" data-toggle="modal" data-target="#newChatModal" (click)="newChatDone=false" id="loggedMainCreateBtn">CREATE NEW CHAT</button>
 
 <hr>
 <p>Existing chats:</p>
@@ -10,8 +10,8 @@
   </div>
 </div>
 <hr>
-<button class="btn btn-block" routerLink="/profile" id="loggedMainProfileBtn">PROFILE</button>
-<button class="btn btn-block" (click)="logout()" id="loggedMainExitBtn">EXIT</button>
+<button class="btn btn-block btn-primary" routerLink="/profile" id="loggedMainProfileBtn">PROFILE</button>
+<button class="btn btn-block btn-primary" (click)="logout()" id="loggedMainExitBtn">EXIT</button>
 
 <div class="modal fade" id="newChatModal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
@@ -50,18 +50,19 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button [disabled]="form.invalid || form.disabled" id="submitBtn" class="btn btn-block" type="submit">submit</button>
-          <button type="button" class="btn btn-block" data-dismiss="modal" id="cancelBtn">cancel</button>
+          <button [disabled]="form.invalid || form.disabled" id="submitBtn" class="btn btn-block btn-primary" type="submit">submit</button>
+          <button type="button" class="btn btn-block btn-primary" data-dismiss="modal" id="cancelBtn">cancel</button>
         </div>
       </form>
       <div *ngIf="newChatDone">
         <div class="modal-body">
           <p>NEW CHAT CREATED!</p></div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-block" data-dismiss="modal">OK!</button>
+          <button type="button" class="btn btn-block btn-primary" data-dismiss="modal">OK!</button>
         </div>
       </div>
     </div>
   </div>
 </div>
+
 

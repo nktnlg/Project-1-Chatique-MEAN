@@ -1,6 +1,6 @@
 <h3 id="chatTitle">{{chatInfo.title}}</h3>
 <div *ngIf="chatOwner" id="deleteIfAllowed">
-  <button class="btn btn-block" (click)="deleteForm = !deleteForm" id="chatDeleteBtn">DELETE CHAT</button>
+  <button class="btn btn-block btn-primary" (click)="deleteForm = !deleteForm" id="chatDeleteBtn">DELETE CHAT</button>
   <form
     id="deleteChatForm"
     *ngIf="deleteForm"
@@ -44,5 +44,5 @@
   <app-chat-window [chatId]="chatId"></app-chat-window>
 </div>
 <br>
-<button class="btn btn-block" routerLink="/main" id="chatBackBtn">BACK</button>
+<button class="btn btn-block btn-primary" routerLink="/main" id="chatBackBtn">BACK</button>
 

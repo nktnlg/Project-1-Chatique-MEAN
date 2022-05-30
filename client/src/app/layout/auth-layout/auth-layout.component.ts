@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Params, Router} from "@angular/router";
+import {ActivatedRoute, Params} from "@angular/router";
 import {AuthService} from "../../shared/services/auth.service";
 
 @Component({
@@ -15,8 +15,7 @@ export class AuthLayoutComponent implements OnInit {
 
   constructor(
     private auth: AuthService,
-    private route: ActivatedRoute,
-    private router: Router
+    private route: ActivatedRoute
   ) {
   }
 
@@ -38,5 +37,6 @@ export class AuthLayoutComponent implements OnInit {
       } else {this.sessionExpired = false}
     })
   }
+  //end
 }
 

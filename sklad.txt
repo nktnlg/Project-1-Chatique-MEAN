@@ -1,26 +1,19 @@
 
+<input
+  type="text"
+  [(ngModel)]="wsMsg"
+  (change)="sendToServer($event)">
+
+  ts
 
 
+import {webSocket} from "rxjs/webSocket";
 
-//// MESSAGE CONTROLLER
+    wsMsg = 'hello'
+    subject = webSocket('ws://localhost:8889/')
 
-module.exports.getByChat = async function (req, res) {
-    try {
-        const messages = await Message.find({chat: req.params.chatId}).select('_id message chat date user').populate('user', 'username avatarSrc')
-        const response = {
-            count: messages.length,
-            messages: messages.map(msg => {
-                return {
-                    _id: msg._id,
-                    message: msg.message,
-                    chat: msg.chat,
-                    date: msg.date,
-                    user: msg.user
-                }
-            })
-        }
-        res.status(200).json(response)
-    } catch (e) {
-        errHandle(res, e)
-    }
-}
+      sendToServer($event){
+        this.subject.subscribe();
+        this.subject.next(this.wsMsg);
+        this.subject.complete()
+      }

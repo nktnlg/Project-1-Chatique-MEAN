@@ -1,5 +1,5 @@
 <div class="messages">
-  <div *ngIf="chatMessages$ | async as msgs">
+  <div *ngIf="chatMessages$ | async as msgs" id="messagesExist">
     <div class="panel panel-default" *ngFor="let msg of msgs">
       <div class="panel-heading">
         <button
